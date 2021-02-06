@@ -1,4 +1,5 @@
 # rich-text-editor
+Editeur de texte enrichi en VueJS
 
 ## Project setup
 ```

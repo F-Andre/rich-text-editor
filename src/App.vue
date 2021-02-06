@@ -1,19 +1,22 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Éditeur rich text</h1>
+    <div class="card shadow my-3" id="post-create">
+      <label for="post-body">Article</label>
+      <post-add-body></post-add-body>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import PostAddBody from "./components/PostAddBody.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    PostAddBody,
+  },
+};
 </script>
 
 <style lang="scss">
@@ -24,5 +27,20 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+
+  .card {
+    min-width: 60vw;
+    max-width: 95vw;
+    margin: auto auto;
+  }
+
+  iframe, .post-text {
+    width: 100%;
+    height: 30vw;
+  }
+
+  .post-text {
+    text-align: left;
+  }
 }
 </style>

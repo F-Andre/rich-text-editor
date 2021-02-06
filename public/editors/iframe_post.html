@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>iframe post</title>
+  <script src="https://kit.fontawesome.com/9624bb1636.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Overpass&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Overpass', sans-serif;
+      margin: 0;
+    }
+
+    nav {
+      position: fixed;
+      width: 100%;
+      display: flex;
+      justify-content: start;
+      min-height: 32px;
+      border-bottom: 2px solid gainsboro;
+      padding-top: 1px;
+      overflow-x: auto;
+      z-index: 999;
+      background-color: white;
+    }
+
+    #editContent {
+      position: relative;
+      top: 35px;
+      left: 0;
+      height: calc(100vh - 75px);
+      border-bottom-right-radius: 5px;
+      border-bottom-left-radius: 5px;
+      padding: 10px;
+      color: #495057;
+      font-size: 1.2rem;
+      z-index: 900;
+    }
+
+    .separator {
+      margin: 0 10px 0 10px;
+      border-right: 1px solid gainsboro;
+    }
+
+    .group-button {
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+      line-height: 30px;
+      font-size: 1.3rem;
+    }
+
+    .mef {
+      font-size: 1.1rem;
+      background-color: white;
+      border: none;
+      border-radius: 3px;
+      height: 30px;
+      width: 32px;
+      padding: 0;
+      margin-left: 1px;
+    }
+
+    .mef:hover {
+      cursor: pointer;
+      background-color: gainsboro;
+    }
+
+    .select {
+      font-size: 0.9rem;
+      width: auto;
+      border: 1px solid gainsboro;
+      margin-left: 5px;
+    }
+
+    .font-color option {
+      width: 50px;
+    }
+
+    .clicked {
+      background-color: gainsboro;
+    }
+  </style>
+</head>
+
+<body>
+<nav>
+  <div id="style-format" class="group-button">
+    <button id="remove-format" class="mef removeFormat" title="Retirer le formatage"><i class="fas fa-fw fa-remove-format"></i></button>
+  </div>
+  <span class="separator"></span>
+  <div id="text-form" class="group-button">
+    <button id="bold" class="mef deco" title="Gras"><b>G</b></button>
+    <button id="italic" class="mef deco" title="Italique"><i>I</i></button>
+    <button id="underline" class="mef deco" title="Souligné"><u>S</u></button>
+  </div>
+  <span class="separator"></span>
+  <div id="text-position" class="group-button">
+    <button id="left" class="mef align clicked" title="Texte à gauche"><i class="fas fa-fw fa-align-left"></i></button>
+    <button id="center" class="mef align" title="Texte centré"><i class="fas fa-fw fa-align-center"></i></button>
+    <button id="right" class="mef align" title="Texte à droite"><i class="fas fa-fw fa-align-right"></i></button>
+    <button id="justify" class="mef align" title="Texte justifié"><i class="fas fa-fw fa-align-justify"></i></button>
+  </div>
+  <span class="separator"></span>
+  <div id="text-list" class="group-button">
+    <button id="unorderedList" class="mef liste" title="Liste à puces"><i class="fas fa-fw fa-list-ul"></i></button>
+    <button id="orderedList" class="mef liste" title="Liste ordonnée"><i class="fas fa-fw fa-list-ol"></i></button>
+  </div>
+  <span class="separator"></span>
+  <div id="text-link" class="group-button">
+    <button id="add-link" class="mef link" title="Créer un lien à partir de la sélection"><i class="fas fa-fw fa-link"></i></button>
+  </div>
+  <span class="separator"></span>
+  <div id="text-indice" class="group-button">
+    <button id="superscript" class="mef indice" title="Exposant"><i class="fas fa-fw fa-superscript"></i></button>
+    <button id="subscript" class="mef indice" title="Subscription"><i class="fas fa-fw fa-subscript"></i></button>
+  </div>
+  <span class="separator"></span>
+  <div id="text-size" class="group-button">
+    <label for="font-size"><i class="fas fa-text-height fa-fw"></i></label>
+    <select id="font-size" class="mef font-size select" title="Changer la taille du texte">
+      <option value="1">très très petit</option>
+      <option value="2">très petit</option>
+      <option value="3">petit</option>
+      <option value="4" selected>normal</option>
+      <option value="5">grand</option>
+      <option value="6">très grand</option>
+      <option value="7">très très grand</option>
+    </select>
+  </div>
+  <span class="separator"></span>
+  <div id="text-color" class="group-button">
+    <label for="font-color" style="color: red"><i class="fas fa-text fa-fw"></i></label>
+    <select id="font-color" class="mef font-color select" title="Changer la couleur du texte">
+      <option value="black">Noir</option>
+      <option value="white">Blanc</option>
+      <option value="gray">Gris</option>
+      <option value="red">Rouge</option>
+      <option value="green">Vert</option>
+      <option value="blue">Bleu</option>
+      <option value="yellow">Jaune</option>
+      <option value="orange">Orange</option>
+    </select>
+  </div>
+  <span class="separator"></span>
+  <div id="back-color" class="group-button">
+    <label for="font-background" style="background-color: red"><i class="fas fa-text fa-fw"></i></label>
+    <select id="font-background" class="mef font-background select" title="Changer la couleur de fond">
+      <option value="white">Blanc</option>
+      <option value="black">Noir</option>
+      <option value="gray">Gris</option>
+      <option value="red">Rouge</option>
+      <option value="green">Vert</option>
+      <option value="blue">Bleu</option>
+      <option value="yellow">Jaune</option>
+      <option value="orange">Orange</option>
+    </select>
+  </div>
+  <span class="separator"></span>
+</nav>
+
+<div id="editContent" contenteditable="true"></div>
+
+<script>
+  // addEventListener support for IE8
+  function bindEvent(element, eventName, eventHandler) {
+    if (element.addEventListener) {
+      element.addEventListener(eventName, eventHandler, false);
+    } else if (element.attachEvent) {
+      element.attachEvent('on' + eventName, eventHandler);
+    }
+  }
+
+  function editCommand(comName, comArg = '') {
+    document.execCommand(comName, false, comArg);
+    document.getElementById('editContent').focus();
+  }
+
+  function caretAtEnd() {
+    let l = document.getElementById('editContent').childNodes.length;
+    l > 0 ? document.getSelection().collapse(document.getElementById('editContent'), l) : '';
+    window.setTimeout(() => {
+      let l = document.getElementById('editContent').childNodes.length;
+      l > 0 ? document.getSelection().collapse(document.getElementById('editContent'), l) : '';
+    }, 1);
+  }
+
+  // Send a message to the parent
+  let sendMessage = function (msg) {
+    window.parent.postMessage(msg, '*');
+  };
+
+  let clickPosition = [];
+
+  bindEvent(document.getElementById('editContent'), 'click', () => {
+    let select = window.getSelection();
+    clickPosition = [select.anchorNode, select.anchorOffset];
+  })
+
+  let testContentInterval
+  let testContent = new Promise((resolve) => {
+    testContentInterval = setInterval(() => {
+      if (document.getElementById('editContent').innerHTML.length > 0) {
+        resolve();
+      }
+    }, 20)
+  });
+
+  testContent.then(() => {
+    clearInterval(testContentInterval);
+  })
+
+  function toggleButton(elements) {
+    for (let i = 0; i < elements.length; i++) {
+      if (elements[i].classList) {
+        elements[i].classList.contains('clicked') ? elements[i].classList.remove('clicked') : '';
+      }
+    }
+  }
+
+  bindEvent(document.getElementById('bold'), 'click', () => {
+    editCommand('bold');
+    document.getElementById('bold').classList.toggle('clicked');
+  });
+  bindEvent(document.getElementById('italic'), 'click', () => {
+    editCommand('italic');
+    document.getElementById('italic').classList.toggle('clicked');
+  });
+  bindEvent(document.getElementById('underline'), 'click', () => {
+    editCommand('underline');
+    document.getElementById('underline').classList.toggle('clicked');
+  });
+
+  bindEvent(document.getElementById('unorderedList'), 'click', () => {
+    editCommand('insertUnorderedList');
+    document.getElementById('orderedList').classList.contains('clicked') ? document.getElementById('orderedList').classList.remove('clicked') : '';
+    document.getElementById('unorderedList').classList.toggle('clicked');
+  });
+  bindEvent(document.getElementById('orderedList'), 'click', () => {
+    editCommand('insertOrderedList');
+    document.getElementById('unorderedList').classList.contains('clicked') ? document.getElementById('unorderedList').classList.remove('clicked') : '';
+    document.getElementById('orderedList').classList.toggle('clicked');
+  });
+
+  bindEvent(document.getElementById('add-link'), 'click', () => {
+    let link = window.getSelection();
+    editCommand('createLink', link);
+  });
+
+  bindEvent(document.getElementById('superscript'), 'click', () => {
+    editCommand('superscript');
+    document.getElementById('subscript').classList.contains('clicked') ? document.getElementById('subscript').classList.remove('clicked') : '';
+    document.getElementById('superscript').classList.toggle('clicked');
+  });
+  bindEvent(document.getElementById('subscript'), 'click', () => {
+    editCommand('subscript');
+    document.getElementById('superscript').classList.contains('clicked') ? document.getElementById('superscript').classList.remove('clicked') : '';
+    document.getElementById('subscript').classList.toggle('clicked');
+  });
+
+  let align = document.getElementsByClassName('align');
+  bindEvent(document.getElementById('left'), 'click', () => {
+    editCommand('justifyLeft');
+    toggleButton(align);
+    document.getElementById('left').classList.toggle('clicked');
+  });
+  bindEvent(document.getElementById('center'), 'click', () => {
+    editCommand('justifyCenter');
+    toggleButton(align);
+    document.getElementById('center').classList.toggle('clicked');
+  });
+  bindEvent(document.getElementById('right'), 'click', () => {
+    editCommand('justifyRight');
+    toggleButton(align);
+    document.getElementById('right').classList.toggle('clicked');
+  });
+  bindEvent(document.getElementById('justify'), 'click', () => {
+    editCommand('justifyFull');
+    toggleButton(align);
+    document.getElementById('justify').classList.toggle('clicked');
+  });
+
+  bindEvent(document.getElementById('font-size'), 'change', (e) => {
+    editCommand('fontSize', e.target.value);
+  });
+
+  bindEvent(document.getElementById('font-color'), 'change', (e) => {
+    editCommand('foreColor', e.target.value);
+  });
+
+  bindEvent(document.getElementById('font-background'), 'change', (e) => {
+    editCommand('backColor', e.target.value);
+  });
+
+  bindEvent(document.getElementById('remove-format'), 'click', () => {
+    editCommand('removeFormat');
+  });
+
+  bindEvent(document.getElementById('editContent'), 'keydown', (e) => {
+    let select = window.getSelection();
+
+    if (e.key === "Enter" && select.focusNode.parentElement.tagName !== 'LI') {
+      e.preventDefault();
+      editCommand('insertHTML', '<br/>&#8203;');
+    }
+
+    editCommand('unlink');
+
+    let deco = document.getElementsByClassName('deco');
+    let indice = document.getElementsByClassName('indice');
+    if (select.focusNode.innerHTML === '') {
+      if (select.focusNode !== document.getElementById('editContent')) {
+        select.focusNode.parentElement.removeChild(select.focusNode);
+      }
+    }
+
+    if (document.getElementById('unorderedList').classList.contains('clicked') && select.focusNode.parentElement.tagName !== 'LI') {
+      document.getElementById('unorderedList').classList.toggle('clicked')
+    }
+
+    if (document.getElementById('orderedList').classList.contains('clicked') && select.focusNode.parentElement.tagName !== 'LI') {
+      document.getElementById('orderedList').classList.toggle('clicked')
+    }
+
+    if (select.focusNode.parentElement.tagName === 'LI') {
+      if(!document.getElementById('unorderedList').classList.contains('clicked') && !document.getElementById('orderedList').classList.contains('clicked')) {
+        if (select.focusNode.parentElement.parentElement.tagName === 'UL') {
+          document.getElementById('unorderedList').classList.toggle('clicked')
+        }
+
+        if (select.focusNode.parentElement.parentElement.tagName === 'OL') {
+          document.getElementById('orderedList').classList.toggle('clicked')
+        }
+      }
+    }
+
+    for (let i = 0; i < deco.length; i++) {
+      if (deco[i].classList) {
+        if (select.focusNode.parentElement === document.getElementById('editContent') && deco[i].classList.contains('clicked')) {
+          deco[i].classList.remove('clicked');
+        }
+      }
+    }
+    for (let i = 0; i < indice.length; i++) {
+      if (indice[i].classList) {
+        if (select.focusNode.parentElement === document.getElementById('editContent') && indice[i].classList.contains('clicked')) {
+          indice[i].classList.remove('clicked');
+        }
+      }
+    }
+  });
+
+  bindEvent(document.getElementById('editContent'), 'keyup', () => {
+    let filterHtml = document.querySelector('#editContent').innerHTML;
+    sendMessage(filterHtml);
+  })
+
+  bindEvent(window, 'message', (e) => {
+    document.getElementById('editContent').innerHTML = e.data;
+    caretAtEnd();
+  });
+</script>
+</body>
+
+</html>
