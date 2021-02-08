@@ -34,13 +34,6 @@
       
       },
 
-      textClicked: function () {
-        this.edit = true
-        document.querySelectorAll('.postIframe').forEach(iframe => {
-          console.log(iframe);
-        })
-      },
-
       generateId: function () {
         this.generatedId = 'iframe' + Math.floor(Math.random() * 10000);
       },

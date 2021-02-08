@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>iframe post</title>
-  <script src="https://kit.fontawesome.com/9624bb1636.js" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/38b11c099f.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Overpass&display=swap" rel="stylesheet">
   <style>
@@ -86,7 +86,7 @@
 </head>
 
 <body>
-<nav>
+<nav id="navbar">
   <div id="style-format" class="group-button">
     <button id="remove-format" class="mef removeFormat" title="Retirer le formatage"><i class="fas fa-fw fa-remove-format"></i></button>
   </div>
@@ -132,7 +132,7 @@
   </div>
   <span class="separator"></span>
   <div id="text-color" class="group-button">
-    <label for="font-color" style="color: red"><i class="fas fa-text fa-fw"></i></label>
+    <label for="font-color" style="color: red"><i class="fas fa-font fa-fw"></i></label>
     <select id="font-color" class="mef font-color select" title="Changer la couleur du texte">
       <option value="black">Noir</option>
       <option value="white">Blanc</option>
@@ -146,7 +146,7 @@
   </div>
   <span class="separator"></span>
   <div id="back-color" class="group-button">
-    <label for="font-background" style="background-color: red"><i class="fas fa-text fa-fw"></i></label>
+    <label for="font-background" style="background-color: red"><i class="fas fa-font fa-fw"></i></label>
     <select id="font-background" class="mef font-background select" title="Changer la couleur de fond">
       <option value="white">Blanc</option>
       <option value="black">Noir</option>
@@ -165,9 +165,9 @@
 
 <script>
   // addEventListener support for IE8
-  function bindEvent(element, eventName, eventHandler) {
+  function bindEvent(element, eventName, eventHandler, capture = false) {
     if (element.addEventListener) {
-      element.addEventListener(eventName, eventHandler, false);
+      element.addEventListener(eventName, eventHandler, capture);
     } else if (element.attachEvent) {
       element.attachEvent('on' + eventName, eventHandler);
     }
@@ -194,7 +194,7 @@
 
   let clickPosition = [];
 
-  bindEvent(document.getElementById('editContent'), 'click', () => {
+  bindEvent(document.getElementById('editContent'), 'mousedown', () => {
     let select = window.getSelection();
     clickPosition = [select.anchorNode, select.anchorOffset];
   })
@@ -220,63 +220,63 @@
     }
   }
 
-  bindEvent(document.getElementById('bold'), 'click', () => {
+  bindEvent(document.getElementById('bold'), 'mousedown', () => {
     editCommand('bold');
     document.getElementById('bold').classList.toggle('clicked');
   });
-  bindEvent(document.getElementById('italic'), 'click', () => {
+  bindEvent(document.getElementById('italic'), 'mousedown', () => {
     editCommand('italic');
     document.getElementById('italic').classList.toggle('clicked');
   });
-  bindEvent(document.getElementById('underline'), 'click', () => {
+  bindEvent(document.getElementById('underline'), 'mousedown', () => {
     editCommand('underline');
     document.getElementById('underline').classList.toggle('clicked');
   });
 
-  bindEvent(document.getElementById('unorderedList'), 'click', () => {
+  bindEvent(document.getElementById('unorderedList'), 'mousedown', () => {
     editCommand('insertUnorderedList');
     document.getElementById('orderedList').classList.contains('clicked') ? document.getElementById('orderedList').classList.remove('clicked') : '';
     document.getElementById('unorderedList').classList.toggle('clicked');
   });
-  bindEvent(document.getElementById('orderedList'), 'click', () => {
+  bindEvent(document.getElementById('orderedList'), 'mousedown', () => {
     editCommand('insertOrderedList');
     document.getElementById('unorderedList').classList.contains('clicked') ? document.getElementById('unorderedList').classList.remove('clicked') : '';
     document.getElementById('orderedList').classList.toggle('clicked');
   });
 
-  bindEvent(document.getElementById('add-link'), 'click', () => {
+  bindEvent(document.getElementById('add-link'), 'mousedown', () => {
     let link = window.getSelection();
     editCommand('createLink', link);
   });
 
-  bindEvent(document.getElementById('superscript'), 'click', () => {
+  bindEvent(document.getElementById('superscript'), 'mousedown', () => {
     editCommand('superscript');
     document.getElementById('subscript').classList.contains('clicked') ? document.getElementById('subscript').classList.remove('clicked') : '';
     document.getElementById('superscript').classList.toggle('clicked');
   });
-  bindEvent(document.getElementById('subscript'), 'click', () => {
+  bindEvent(document.getElementById('subscript'), 'mousedown', () => {
     editCommand('subscript');
     document.getElementById('superscript').classList.contains('clicked') ? document.getElementById('superscript').classList.remove('clicked') : '';
     document.getElementById('subscript').classList.toggle('clicked');
   });
 
   let align = document.getElementsByClassName('align');
-  bindEvent(document.getElementById('left'), 'click', () => {
+  bindEvent(document.getElementById('left'), 'mousedown', () => {
     editCommand('justifyLeft');
     toggleButton(align);
     document.getElementById('left').classList.toggle('clicked');
   });
-  bindEvent(document.getElementById('center'), 'click', () => {
+  bindEvent(document.getElementById('center'), 'mousedown', () => {
     editCommand('justifyCenter');
     toggleButton(align);
     document.getElementById('center').classList.toggle('clicked');
   });
-  bindEvent(document.getElementById('right'), 'click', () => {
+  bindEvent(document.getElementById('right'), 'mousedown', () => {
     editCommand('justifyRight');
     toggleButton(align);
     document.getElementById('right').classList.toggle('clicked');
   });
-  bindEvent(document.getElementById('justify'), 'click', () => {
+  bindEvent(document.getElementById('justify'), 'mousedown', () => {
     editCommand('justifyFull');
     toggleButton(align);
     document.getElementById('justify').classList.toggle('clicked');
@@ -294,7 +294,7 @@
     editCommand('backColor', e.target.value);
   });
 
-  bindEvent(document.getElementById('remove-format'), 'click', () => {
+  bindEvent(document.getElementById('remove-format'), 'mousedown', () => {
     editCommand('removeFormat');
   });
 
@@ -356,6 +356,11 @@
     let filterHtml = document.querySelector('#editContent').innerHTML;
     sendMessage(filterHtml);
   })
+
+  bindEvent(document.getElementById('navbar'), 'mouseup', () => {
+    let filterHtml = document.querySelector('#editContent').innerHTML;
+    sendMessage(filterHtml);
+  }, true)
 
   bindEvent(window, 'message', (e) => {
     document.getElementById('editContent').innerHTML = e.data;

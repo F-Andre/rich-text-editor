@@ -1,10 +1,10 @@
 <template>
-  <div id="post-body">
+  <div>
     <rich-text-editor
-      :iframe-edit="true"
+      :iframe-edit="edit"
       v-on:text-clicked="onTextClicked($event)"
     ></rich-text-editor>
-    <button class="btn btn-success" @click.prevent="onEditOverButton">
+    <button @click.prevent="onEditOverButton">
       {{ buttonText }}
     </button>
   </div>
@@ -18,9 +18,13 @@ export default {
     RichTextEditor,
   },
 
+  props: {
+    edit: Boolean,
+  },
+
   data() {
     return {
-      buttonText: "Terminer l'édition",
+      buttonText: this.edit ? "Terminer l'édition" : "Reprendre l'édition",
     };
   },
 
@@ -28,9 +32,11 @@ export default {
     onTextClicked: function (event) {
       this.$children.forEach((child) => {
         if (child.id === event) {
-          child.edit = true;
+          child.edit = true
+          this.buttonText = "Terminer l'édition"
         } else {
-          child.edit = false;
+          child.edit = false
+          this.buttonText = "Reprendre l'édition"
         }
       });
     },
